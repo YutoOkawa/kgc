@@ -3,6 +3,7 @@ const ctx = new CTX('BN254');
 const utils = require('../js/utils');
 const base64url = require('base64url');
 const cbor = require('../js/cbor');
+const crypto = require('crypto');
 
 /**
  * ランダムなG1の要素を返す
@@ -13,11 +14,21 @@ exports.generateG1Element = function(rng) {
     // var seed = ctx.FP.rand(rng);
     // var G = ctx.ECP.map2point(seed);
     // return G;
-    var r = new ctx.BIG(0);
-    r.rcopy(ctx.ROM_CURVE.CURVE_Order);
-    var G = ctx.ECP.generator();
-    var seed = ctx.BIG.randtrunc(r, 16*ctx.ECP.AESKEY, rng);
-    return ctx.PAIR.G1mul(G, seed);
+
+    // var r = new ctx.BIG(0);
+    // r.rcopy(ctx.ROM_CURVE.CURVE_Order);
+    // var G = ctx.ECP.generator();
+    // var seed = ctx.BIG.randtrunc(r, 16*ctx.ECP.AESKEY, rng);
+    // return ctx.PAIR.G1mul(G, seed);
+
+    var seed1 = ctx.FP.rand(rng);
+    var seed2 = ctx.FP.rand(rng);
+    var G = ctx.ECP.map2point(seed1)
+    var G1 = ctx.ECP.map2point(seed2);
+    G.add(G1);
+    G.cfp();
+    G.affine();
+    return G;
 }
 
 /**
@@ -28,11 +39,21 @@ exports.generateG2Element = function(rng) {
     // var seed = ctx.FP2.rand(rng);
     // var H = ctx.ECP2.map2point(seed);
     // return H;
-    var r = new ctx.BIG(0);
-    r.rcopy(ctx.ROM_CURVE.CURVE_Order);
-    var H = ctx.ECP2.generator();
-    var seed = ctx.BIG.randtrunc(r, 16*ctx.ECP.AESKEY, rng);
-    return ctx.PAIR.G2mul(H, seed);
+
+    // var r = new ctx.BIG(0);
+    // r.rcopy(ctx.ROM_CURVE.CURVE_Order);
+    // var H = ctx.ECP2.generator();
+    // var seed = ctx.BIG.randtrunc(r, 16*ctx.ECP.AESKEY, rng);
+    // return ctx.PAIR.G2mul(H, seed);
+
+    var seed1 = ctx.FP2.rand(rng);
+    var seed2 = ctx.FP2.rand(rng);
+    var H = ctx.ECP2.map2point(seed1)
+    var H1 = ctx.ECP2.map2point(seed2);
+    H.add(H1);
+    H.cfp();
+    H.affine();
+    return H;
 }
 
 /**
@@ -68,7 +89,11 @@ exports.initRng = function(ctx) {
     var RAW = [];
     var rng = new ctx.RAND();
     rng.clean();
-    for (var i=0; i<100; i++) RAW[i] = i;
+    for (var i=0; i<100; i++) {
+        var buff = crypto.randomBytes(8);
+        var hex = buff.toString("hex");
+        RAW[i] = parseInt(hex, 16);
+    }
     rng.seed(100, RAW);
     return rng;
 }

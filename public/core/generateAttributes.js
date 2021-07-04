@@ -25,14 +25,13 @@ exports.generateattributes = function(ask, attriblist, rng){
     coreUtil.setOpt(ska, "K0", K0);
 
     for(var i=0; i<attriblist.length; i++) {
-        var attrNum = ask["atr"][attriblist[i]]
-        var exp = new coreUtil.ctx.BIG(0);
-        exp.copy(ask["b"]);
-        exp.imul(attrNum);
-        exp.add(ask["a"]);
+        var attrNum = new coreUtil.ctx.BIG(ask["atr"][attriblist[i]])
+        var exp = coreUtil.ctx.BIG.modmul(ask["b"], attrNum, r);
+        exp = coreUtil.ctx.BIG.modadd(exp, ask["a"], r);
         exp.invmodp(r);
         var Ku = coreUtil.ctx.PAIR.G1mul(KBase, exp);
-        coreUtil.setOpt(ska, "K"+String(attrNum), Ku);
+        coreUtil.setOpt(ska, "K"+String(ask["atr"][attriblist[i]]), Ku);
+        coreUtil.outputBytes(Ku);
     }
 
     return ska;
