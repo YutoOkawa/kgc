@@ -29,7 +29,8 @@ app.listen(4000,function() {
     var filepath = './public/key/localhost';
     if (!fs.existsSync(filepath+'.tpk')) {
         var rng = coreUtil.initRng(ctx);
-        const tpk = trusteeSetup.trusteesetup(["GuiltyKiss", "AZALEA", "CYaRon", "Aqours"], rng);
+        // const tpk = trusteeSetup.trusteesetup(["GuiltyKiss", "AZALEA", "CYaRon", "Aqours"], rng);
+        const tpk = trusteeSetup.trusteesetup(["USER", "PARENTS", "GUARDIANSHIP", "A"], rng);
         console.log(tpk);
         coreUtil.outputBytes(tpk['g']);
         coreUtil.writeKey(tpk, filepath+".tpk");
