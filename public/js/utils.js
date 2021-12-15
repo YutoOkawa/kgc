@@ -7,7 +7,7 @@ const fs = require('fs');
 exports.writeKeyFile = function(filename,data) {
     try {
         fs.writeFileSync(filename,data,{flag:'a'});
-        console.log(filename+",writeEnd");
+        // console.log(filename+",writeEnd");
     } catch(e) {
         console.log(e);
     }
@@ -16,7 +16,7 @@ exports.writeKeyFile = function(filename,data) {
 exports.readKeyFile = function(filename) {
     try {
         var data = fs.readFileSync(filename,'utf-8');
-        console.log(filename+',readEnd');
+        // console.log(filename+',readEnd');
         return data
     } catch(e) {
         console.log(e);

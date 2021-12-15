@@ -25,7 +25,7 @@ app.get('/',function(req,res) {
 });
 
 app.listen(4000,function() {
-    console.log('Listening on port 4000');
+    // console.log('Listening on port 4000');
     var filepath = './public/key/localhost';
     if (!fs.existsSync(filepath+'.tpk')) {
         var rng = coreUtil.initRng(ctx);
@@ -34,8 +34,8 @@ app.listen(4000,function() {
         console.log(tpk);
         coreUtil.outputBytes(tpk['g']);
         coreUtil.writeKey(tpk, filepath+".tpk");
-        console.log("鍵を生成しました。");
+        // console.log("鍵を生成しました。");
     } else {
-        console.log('既に鍵が生成されています。');
+        // console.log('既に鍵が生成されています。');
     }
 });

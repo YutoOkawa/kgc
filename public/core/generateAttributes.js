@@ -31,7 +31,7 @@ exports.generateattributes = function(ask, attriblist, rng){
         exp.invmodp(r);
         var Ku = coreUtil.ctx.PAIR.G1mul(KBase, exp);
         coreUtil.setOpt(ska, "K"+String(ask["atr"][attriblist[i]]), Ku);
-        coreUtil.outputBytes(Ku);
+        // coreUtil.outputBytes(Ku);
     }
 
     return ska;

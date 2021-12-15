@@ -9,7 +9,7 @@ router.post('/',function(req,res) {
     var credentialId = base64url.toBuffer(req.body.credentialId).toString('hex');
     var attributes = req.body.attributes;
     var filepath = './public/key/'+credentialId;
-    console.log(filepath);
+    // console.log(filepath);
     console.log(attributes);
     if((fs.existsSync(filepath+'.apk') && fs.existsSync(filepath+'.ask'))) {
         var ask = coreUtil.readKey(filepath+'.ask');
@@ -20,7 +20,7 @@ router.post('/',function(req,res) {
         ska = coreUtil.KeyToCBOR(ska);
         tpk = coreUtil.KeyToCBOR(tpk);
         apk = coreUtil.KeyToCBOR(apk);
-        console.log(tpk, apk, ska);
+        // console.log(tpk, apk, ska);
         res.send({
             tpk: tpk,
             apk: apk,

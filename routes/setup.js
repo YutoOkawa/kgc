@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/',function(req,res) {
     // 保存ファイル名の生成(IDのSHA256ハッシュ値)
     userid = req.body.userid;
-    console.log(req.body);
+    // console.log(req.body);
     var sha256 = crypto.createHash('sha256');
     sha256.update(userid);
     var credentialId = sha256.digest();
